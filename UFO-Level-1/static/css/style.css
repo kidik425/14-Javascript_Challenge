@@ -11,10 +11,11 @@ body {
 }
 
 /* Steve Stuff*/
-.btn-secondary {
+.button {
   color: #fff;
   background-color: #6c757d;
-  border-color: #6c757d;
+  border-color: #d9dee2;
+  border: solid;
 }
 
 .dropdown-item {
