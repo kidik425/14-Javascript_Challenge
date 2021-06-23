@@ -3,7 +3,7 @@ var tableData = data;
 // Get a reference to the table body
 var tbody = d3.select("tbody");
 
-// Create Initial Table
+// Create initial data table
 data.forEach((sighting) => {
     var row = tbody.append("tr");
     Object.entries(sighting).forEach(([key, value]) => {
@@ -12,46 +12,63 @@ data.forEach((sighting) => {
     });
   });
 
-//Create Date Drop Down Reference 
-var dateDrop = d3.select("dropdownMenuButtonDate");
+//Create Drop Down References 
+var dropdownDate = document.getElementById("selectDate");
+var dropdownCity = document.getElementById("selectCity");
+var dropdownState = document.getElementById("selectState");
+var dropdownCountry = document.getElementById("selectCountry");
+var dropdownShape = document.getElementById("selectShape");
 
-var dateList = returnVals();
+//Return list of values in array
+// const dateList = [...new Set( data.map(obj => obj.datetime)) ];
+const dateList = returnList('datetime',false);
+const cityList = returnList('city', true);
+const stateList = returnList('state', true);
+const countryList = returnList('country', false);
+const shapeList = returnList('shape', true);
 
-console.
+//console.log(shapeList); //sanity checks
+
+//Call methods to populate each dropdown
+getValues(dropdownDate, dateList);
+getValues(dropdownCity, cityList);
+getValues(dropdownState, stateList);
+getValues(dropdownCountry, countryList);
+getValues(dropdownShape, shapeList);
+
+//Build out filter section
 
 
-dateList.forEach((dateVal) => {
-    var date = dateDrop.append("div");
-    Object.entries(dateVal).forEach(([key, value]) => {
-      var cell = row.append("td");
-      cell.text(value);
-    });
-});
+/////////function section
+//Returns a list of values either sorted or not depending on parameters
+function returnList(attr, sort) {
+    var list = [...new Set(data.map(obj => obj[attr]))];
+    if (sort === true)
+        list = list.sort();
+    return list;
+};
 
-// Select the button
-var button = d3.select("#filter-btn");
+//Gets values from list and appends them to a dropdown 
+function getValues(dropdown, list) {
+for(var i = 0; i < list.length; i++){
+    var newOption = list[i];
 
-// Create event handlers 
-button.on("click", runFilter);
+    var el = document.createElement("option");
+    el.textContent = newOption;
+    el.value = newOption;
 
-// Function to return unique values
-function uniqueVals(value, index, self) {
-    return self.indexOf(value) === index;
-  }
-
-// Return a distinct list of values.  To be used for the dropdowns
-function returnVals() {
-    return list = data.datetime.filter(uniqueVals)
+    dropdown.append(el);
 }
+};
 
-  // Complete the event handler function for the form
+// Complete the event handler function for the form
 function runFilter() {
 
     // Prevent the page from refreshing
     d3.event.preventDefault();
 
     // Select the input element and get the raw HTML node
-    var inputElement = d3.select("#datetime");
+    var inputElement = d3.select("tbody");
 
     // Get the value property of the input element
     var inputValue = inputElement.property("value");
@@ -72,3 +89,38 @@ function runFilter() {
         });
       });
 }
+
+// // Select the button
+// var button = d3.select("#filter-btn");
+
+// // Create event handlers 
+// button.on("click", runFilter);
+
+// // Complete the event handler function for the form
+// function runFilter() {
+
+//     // Prevent the page from refreshing
+//     d3.event.preventDefault();
+
+//     // Select the input element and get the raw HTML node
+//     var inputElement = d3.select("#datetime");
+
+//     // Get the value property of the input element
+//     var inputValue = inputElement.property("value");
+
+//     var filteredData = tableData.filter(rec => rec.datetime === inputValue);
+
+//     // console.log(filteredData); //sanity check
+
+//     var tbody = d3.select("tbody");
+
+//     tbody.html("");
+
+//     filteredData.forEach((sighting) => {
+//         var row = tbody.append("tr");
+//         Object.entries(sighting).forEach(([key, value]) => {
+//           var cell = row.append("td");
+//           cell.text(value);
+//         });
+//       });
+// }

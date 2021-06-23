@@ -42,40 +42,38 @@
               <div class="panel-heading">Filter Search</div>
               <div class="panel-body">
                 <form>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <ul class="list-group" id="filters">
                       <li class="filter list-group-item">
                         <label for="date">Enter a Date</label>
                         <input class="form-control" id="datetime" type="text" placeholder="1/11/2011">
                       </li>
                     </ul>
-                  </div>
+                  </div> -->
                   <!-- <button id="filter-btn" type="button" class="btn btn-default">Filter Table</button> -->
-                  <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonDate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Select Date
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonDate">
-                      <a class="dropdown-item" href="#">Action</a>
-                    </div>
-                  </div>
-                  <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonCity" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Select City
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonCity">
-                      <a class="dropdown-item" href="#">Action</a>
-                    </div>
-                  </div>
-                  <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Select State
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonState">
-                      <a class="dropdown-item" href="#">Action</a>
-                    </div>
-                  </div>
-                </form>
+
+                  
+                  <form id="filterForm">
+                    <select id="selectDate">
+                      <option>Select Date</option>
+                    </select>
+
+                    <select id="selectCity">
+                      <option>Select City</option>
+                    </select>
+
+                    <select id="selectCountry">
+                      <option>Select Country</option>
+                    </select>
+
+                    <select id="selectState">
+                      <option>Select State</option>
+                    </select>
+
+                    <select id="selectShape">
+                      <option>Select Shape</option>
+                    </select>
+                  </form>
               </div>
             </div>
           </aside>
