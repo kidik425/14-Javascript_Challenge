@@ -7,33 +7,51 @@ var dIDs = [];
 
 //Get a reference to the table body
 var tbody = d3.select("tbody");
+var filterForm = d3.select("form")
 
-renewTable();
+//Creates the initial data table and dropdowns
+initTable();
 
-//dynamically create each dropdown based on config file
+//Dynamically create each dropdown based on config file
 config.forEach((cfig) => {
-    //console.log (cfig) //sanity check
-    var dropdown = document.getElementById(cfig.htmlTag);
-    const list = returnList(cfig.name,cfig.sorted);
-    getValues(dropdown, list);
-    dIDs.push(cfig.htmlTag);
+    var select = filterForm.append("select").attr("id",cfig.htmlTag)
+ //   console.log(select);
+
+    Object.entries(cfig).forEach(([key, value]) => {
+        if(key === "option") {
+            var option = select.append("option").attr("value"," ")
+            option.text(value);
+        }
+    });
 });
-//console.log(dIDs); //sanity check
+
+//Populate each dropdown
+populateDropDowns();
 
 //Build out filter section
 // Select the drop down
 var filters = d3.selectAll("select");
 var refresh = d3.selectAll("button");
-//console.log(filters);
 
 //Create event handlers 
 filters.on("change", runFilter);
 refresh.on("click", deafultFilters)
 
 /////////function section
+//Populate drop down
+function populateDropDowns() {
+    config.forEach((cfig) => {
+        var dropdown = document.getElementById(cfig.htmlTag);
+    
+        const list = returnList(cfig.name,cfig.sorted);
+        getValues(dropdown, list);
+        dIDs.push(cfig.htmlTag);
+    });
+}
+
 //Returns a list of values either sorted or not depending on parameters
 function returnList(attr, sort) {
-    var list = [...new Set(data.map(obj => obj[attr]))];
+    var list = [...new Set(filteredData.map(obj => obj[attr]))];
     if (sort === true)
         list = list.sort();
     return list;
@@ -59,16 +77,19 @@ function runFilter() {
     //Get selected value
     var dropdownKey = d3.select(this).property("id");
     var dropdownValue = d3.select(this).property("value");
-    
+    console.log(dropdownKey);
+    console.log(dropdownValue);
+
     //Get field name from json based on Key
     var filteredConfig = dropdownConfig.filter(rec => rec["htmlTag"] === dropdownKey);
     var key = Object.keys(filteredConfig)[0];
     var field = filteredConfig[key]['name'];
     
-    // Get the value property of the input element
+    //Get the value property of the input element
     filteredData = filteredData.filter(rec => rec[field] === dropdownValue);
-    console.log(filteredData); //sanity check
+    //console.log(filteredData); //sanity check
 
+    //Select table body for inserting records
     var tbody = d3.select("tbody");
 
     tbody.html("");
@@ -89,9 +110,10 @@ function deafultFilters(){
 }
 
 //Create initial data table
-function renewTable() {
+function initTable() {
     data.forEach((sighting) => {
         var row = tbody.append("tr");
+
         Object.entries(sighting).forEach(([key, value]) => {
         var cell = row.append("td");
         cell.text(value);
