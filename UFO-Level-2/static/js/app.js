@@ -44,7 +44,7 @@ function populateDropDowns() {
         var dropdown = document.getElementById(cfig.htmlTag);
     
         const list = returnList(cfig.name,cfig.sorted);
-        getValues(dropdown, list);
+        getDropDownValues(dropdown, list);
         dIDs.push(cfig.htmlTag);
     });
 }
@@ -58,7 +58,7 @@ function returnList(attr, sort) {
 };
 
 //Gets values from list and appends them to a dropdown 
-function getValues(dropdown, list) {
+function getDropDownValues(dropdown, list) {
 for(var i = 0; i < list.length; i++){
     var newOption = list[i];
 
@@ -111,7 +111,7 @@ function deafultFilters(){
 
 //Create initial data table
 function initTable() {
-    data.forEach((sighting) => {
+    tableData.forEach((sighting) => {
         var row = tbody.append("tr");
 
         Object.entries(sighting).forEach(([key, value]) => {
